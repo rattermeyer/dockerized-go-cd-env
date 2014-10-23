@@ -2,3 +2,8 @@ goserver:
   build: docker-goserver
   ports:
     - "8153:8153"
+    - "8154:8154"
+goagent:
+  build: docker-goagent
+  links:
+    - goserver
