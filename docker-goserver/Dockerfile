@@ -12,5 +12,5 @@ RUN dpkg -i /tmp/go-server.deb
 EXPOSE 8153
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-# Start Go Server
-CMD ["ls"]
+# Start Go Server, create go-server logfile and tail it
+CMD /usr/share/go-server/server.sh && > /var/log/go-server/go-server.log && tail -F /var/log/go-server/go-server.log
