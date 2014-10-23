@@ -1,0 +1,2 @@
+#!/bin/sh
+curl http://jenkinsci_jenkinsmaster.dev.docker:8080/jenkins/git/notifyCommit?url=git@jenkinsci_git.dev.docker:todolist-demo.git
