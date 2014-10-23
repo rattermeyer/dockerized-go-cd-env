@@ -1,0 +1,4 @@
+goserver:
+  build: docker-goserver
+  ports:
+    - "8153:8153"
