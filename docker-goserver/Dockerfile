@@ -1,7 +1,14 @@
 FROM rattermeyer/ubuntu-jdk:1.0
 MAINTAINER Patrick Müller "patrick-mueller@gmx.net"
 
-#RUN rm -fR /var/lib/apt/lists/*
+# Vagrant
+ADD ./prepare-vagrant-user.sh /tmp/
+RUN /tmp/prepare-vagrant-user.sh
+
+# Disable (only for Demo!!!!) secure host checking
+RUN echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
+
 RUN apt-get update
 RUN apt-get upgrade -y --force-yes
 RUN apt-get install wget
