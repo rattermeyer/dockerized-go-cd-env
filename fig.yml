@@ -7,3 +7,35 @@ goagent:
   build: docker-goagent
   links:
     - goserver
+    - git
+    - nexus
+git:
+  build: docker-git
+  expose:
+    - "22"
+  ports:
+    - "10023:22"
+sonarmysql:
+  image: centurylink/mysql
+  expose:
+    - "3306"
+  ports:
+    - "13306:3306"
+  environment:
+    - MYSQL_DATABASE=sonar
+    - MYSQL_USER=sonar
+    - MYSQL_PASSWORD=sonar
+sonar:
+  build: docker-sonar
+  expose:
+    - "9000"
+    - "9092"
+  ports:
+    - "9000:9000"
+    - "9092:9092"
+environment:
+    - SONAR_JDBC_URL=jdbc:mysql://mysql.dev.docker:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+    - SONAR_USER=sonar
+    - SONAR_PASSWORD=sonar
+links:
+    - sonarmysql
