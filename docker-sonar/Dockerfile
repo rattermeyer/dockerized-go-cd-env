@@ -15,6 +15,7 @@ COPY conf/sonar.properties /opt/sonarqube-4.4/conf/sonar.properties
 
 ADD plugins.sh /tmp/plugins.sh
 WORKDIR /opt/sonarqube-4.4/extensions/downloads
+RUN chmod u+x /tmp/plugins.sh
 RUN /tmp/plugins.sh
 
 EXPOSE 9000
