@@ -8,7 +8,6 @@ goagent:
   links:
     - goserver
     - git
-    - nexus
 git:
   build: docker-git
   expose:
@@ -33,9 +32,9 @@ sonar:
   ports:
     - "9000:9000"
     - "9092:9092"
-environment:
+  environment:
     - SONAR_JDBC_URL=jdbc:mysql://mysql.dev.docker:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
     - SONAR_USER=sonar
     - SONAR_PASSWORD=sonar
-links:
+  links:
     - sonarmysql

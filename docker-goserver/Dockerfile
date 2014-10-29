@@ -3,6 +3,7 @@ MAINTAINER Patrick Müller "patrick-mueller@gmx.net"
 
 # Vagrant
 ADD ./prepare-vagrant-user.sh /tmp/
+RUN chmod u+x /tmp/prepare-vagrant-user.sh
 RUN /tmp/prepare-vagrant-user.sh
 
 # Disable (only for Demo!!!!) secure host checking
