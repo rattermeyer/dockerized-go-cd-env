@@ -10,7 +10,7 @@ RUN chmod u+x /tmp/prepare-vagrant-user.sh
 RUN /tmp/prepare-vagrant-user.sh 
 # Clone Sample Project
 RUN useradd -m git
-RUN git clone --bare https://github.com/rattermeyer/todolist-demo.git /home/git/todolist-demo.git && chown -R git:git /home/git/todolist-demo.git
+RUN git clone --bare https://github.com/patmueller/todolist-demo.git /home/git/todolist-demo.git && chown -R git:git /home/git/todolist-demo.git
 ADD post-commit /home/git/todolist-demo.git/hooks/
 ADD ./prepare-git-user.sh /tmp/prepare-git-user.sh
 RUN chmod u+x /tmp/prepare-git-user.sh

@@ -1,2 +1,4 @@
 #!/bin/sh
-curl http://jenkinsci_jenkinsmaster.dev.docker:8080/jenkins/git/notifyCommit?url=git@jenkinsci_git.dev.docker:todolist-demo.git
+
+# trigger pipeline
+curl -d "repository_url=git@godockerci_git.dev.docker:/home/git/todolist-demo.git" http://godockerci_goserver.dev.docker:8153/go/api/material/notify/git
