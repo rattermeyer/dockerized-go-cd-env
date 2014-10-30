@@ -7,8 +7,15 @@ RUN chmod u+x /tmp/prepare-vagrant-user.sh
 RUN /tmp/prepare-vagrant-user.sh
 
 # Disable (only for Demo!!!!) secure host checking
-RUN echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
-RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
+#RUN echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
+#RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
+
+# setup
+RUN mkdir -p /var/go/.ssh && chown -R go:go /var/go/.ssh
+ADD ci_insecure /var/go/.ssh/id_rsa
+RUN chown go:go /var/go/.ssh/id_rsa && chmod 600 /var/go/.ssh/id_rsa
+ADD ci_insecure.pub /var/go/.ssh/id_rsa.pub
+ADD ssh_config /var/go/.ssh/config
 
 RUN apt-get update
 RUN apt-get upgrade -y --force-yes
