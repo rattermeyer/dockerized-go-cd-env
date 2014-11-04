@@ -13,7 +13,7 @@ RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
 # Update and download essential packages
 RUN apt-get update
 RUN apt-get upgrade -y --force-yes
-RUN apt-get install -y wget unzip dnsutils
+RUN apt-get install -y wget unzip dnsutils git
 
 # Download and setup Go Agent
 RUN wget http://download.go.cd/gocd-deb/go-agent-14.2.0-377.deb -O /tmp/go-agent.deb
