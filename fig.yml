@@ -10,16 +10,19 @@ goagent:
   links:
     - goserver
     - git
-  environment:
-    - M2_HOME=/usr/local/apache-maven/apache-maven-3.2.3
-    - M2=/usr/local/apache-maven/apache-maven-3.2.3/bin
-    - JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-amd64
 git:
   build: docker-git
   expose:
     - "22"
   ports:
     - "10023:22"
+nexus:
+  build: docker-nexus
+  expose:
+    - "8081"
+    - "22"
+  ports:
+    - "8081:8081"
 sonarmysql:
   image: centurylink/mysql
   expose:
