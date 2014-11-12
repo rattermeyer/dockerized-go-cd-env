@@ -1,0 +1,4 @@
+Host *
+    # this is insecure!!! Only use in demo environments!
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
