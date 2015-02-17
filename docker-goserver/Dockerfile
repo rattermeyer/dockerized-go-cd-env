@@ -11,7 +11,7 @@ RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
 RUN apt-get install -y wget unzip git
 
 # download and install Go Server
-RUN wget http://download.go.cd/gocd-deb/go-server-14.2.0-377.deb -O /tmp/go-server.deb
+RUN wget http://download.go.cd/gocd-deb/go-server-14.4.0-1356.deb -O /tmp/go-server.deb
 RUN dpkg -i /tmp/go-server.deb
 EXPOSE 8153
 

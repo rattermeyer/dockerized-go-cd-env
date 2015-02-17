@@ -12,7 +12,7 @@ RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
 RUN apt-get install -y wget unzip dnsutils git
 
 # Download and setup Go Agent
-RUN wget http://download.go.cd/gocd-deb/go-agent-14.2.0-377.deb -O /tmp/go-agent.deb
+RUN wget http://download.go.cd/gocd-deb/go-agent-14.4.0-1356.deb -O /tmp/go-agent.deb
 RUN dpkg -i /tmp/go-agent.deb
 RUN sed -i 's/GO_SERVER=127.0.0.1/GO_SERVER=`dig +short godockerci_goserver.dev.docker`/g' /etc/default/go-agent
 RUN sed -i 's/DAEMON=Y/DAEMON=N/g' /etc/default/go-agent
