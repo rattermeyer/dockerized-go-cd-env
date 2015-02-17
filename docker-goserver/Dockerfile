@@ -1,17 +1,13 @@
 FROM rattermeyer/ubuntu-jdk:1.0
-MAINTAINER Patrick Müller "patrick-mueller@gmx.net"
+MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 
-# Vagrant
-ADD ./prepare-vagrant-user.sh /tmp/
-RUN chmod u+x /tmp/prepare-vagrant-user.sh
-RUN /tmp/prepare-vagrant-user.sh
+ENV REFRESHED_AT 2015-02-17
+RUN apt-get -qq update && apt-get upgrade -y --force-yes
 
 # Disable (only for Demo!!!!) secure host checking
 RUN echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
 RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
 
-RUN apt-get update
-RUN apt-get upgrade -y --force-yes
 RUN apt-get install -y wget unzip git
 
 # download and install Go Server

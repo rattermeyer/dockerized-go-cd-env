@@ -1,13 +1,9 @@
 FROM rattermeyer/ubuntu-jdk:1.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
+ENV REFRESHED_AT 2015-02-17
 
 # update und install
-RUN apt-get update
-RUN apt-get install -y git
-# Prepare for Vagrant
-ADD ./prepare-vagrant-user.sh /tmp/
-RUN chmod u+x /tmp/prepare-vagrant-user.sh
-RUN /tmp/prepare-vagrant-user.sh 
+RUN apt-get -qq update && apt-get install -qqy git
 # Clone Sample Project
 RUN useradd -m git
 RUN git clone --bare https://github.com/patmueller/todolist-demo.git /home/git/todolist-demo.git && chown -R git:git /home/git/todolist-demo.git

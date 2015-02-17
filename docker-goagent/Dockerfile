@@ -1,18 +1,14 @@
 FROM rattermeyer/ubuntu-jdk:1.0
-MAINTAINER Patrick Müller "patrick-mueller@gmx.net"
+MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 
-# Vagrant
-ADD ./prepare-vagrant-user.sh /tmp/
-RUN chmod u+x /tmp/prepare-vagrant-user.sh
-RUN /tmp/prepare-vagrant-user.sh
+ENV REFRESHED_AT 2015-02-17
+RUN apt-get -qq update && apt-get upgrade -qqy 
 
 # Disable (only for Demo!!!!) secure host checking
 RUN echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
 RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
 
 # Update and download essential packages
-RUN apt-get update
-RUN apt-get upgrade -y --force-yes
 RUN apt-get install -y wget unzip dnsutils git
 
 # Download and setup Go Agent
@@ -32,14 +28,14 @@ ADD ci_insecure.pub /var/go/.ssh/id_rsa.pub
 ADD ssh_config /var/go/.ssh/config
 
 # Donwload and setup maven
-RUN wget http://mirror.synyx.de/apache/maven/maven-3/3.2.3/binaries/apache-maven-3.2.3-bin.tar.gz -O /tmp/maven.tar.gz
+RUN wget http://mirror.synyx.de/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz -O /tmp/maven.tar.gz
 RUN mkdir /usr/local/maven
 RUN tar -C /usr/local/maven -xzvf /tmp/maven.tar.gz
-ENV M2_HOME /usr/local/maven/apache-maven-3.2.3
-ENV M2 /usr/local/maven/apache-maven-3.2.3/bin
+ENV M2_HOME /usr/local/maven/apache-maven-3.2.5
+ENV M2 /usr/local/maven/apache-maven-3.2.5/bin
 ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 ENV PATH $M2:$JAVA_HOME:$PATH
-RUN ln -s /usr/local/maven/apache-maven-3.2.3/bin/mvn /usr/bin/mvn
+RUN ln -s /usr/local/maven/apache-maven-3.2.5/bin/mvn /usr/bin/mvn
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
