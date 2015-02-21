@@ -2,6 +2,9 @@ FROM rattermeyer/ubuntu-jdk:1.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 ENV REFRESHED_AT 2015-02-17
 
+# Consul
+ENV SERVICE_NAME git
+
 # update und install
 RUN apt-get -qq update && apt-get install -qqy git
 # Clone Sample Project

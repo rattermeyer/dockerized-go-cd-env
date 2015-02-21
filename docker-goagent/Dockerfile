@@ -2,6 +2,10 @@ FROM rattermeyer/ubuntu-jdk:1.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 
 ENV REFRESHED_AT 2015-02-17
+
+# Consul specific settings
+ENV SERVICE_NAME goagent
+
 RUN apt-get -qq update && apt-get upgrade -qqy 
 
 # Disable (only for Demo!!!!) secure host checking
@@ -14,7 +18,7 @@ RUN apt-get install -y wget unzip dnsutils git
 # Download and setup Go Agent
 RUN wget http://download.go.cd/gocd-deb/go-agent-14.4.0-1356.deb -O /tmp/go-agent.deb
 RUN dpkg -i /tmp/go-agent.deb
-RUN sed -i 's/GO_SERVER=127.0.0.1/GO_SERVER=`dig +short godockerci_goserver.dev.docker`/g' /etc/default/go-agent
+RUN sed -i 's/GO_SERVER=127.0.0.1/GO_SERVER=`dig +short +search goserver`/g' /etc/default/go-agent
 RUN sed -i 's/DAEMON=Y/DAEMON=N/g' /etc/default/go-agent
 ADD ./readcfg.sh /var/go/
 RUN chmod +x /var/go/readcfg.sh

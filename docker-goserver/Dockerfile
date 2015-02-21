@@ -2,6 +2,10 @@ FROM rattermeyer/ubuntu-jdk:1.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 
 ENV REFRESHED_AT 2015-02-17
+
+# Consul specifig customizations (optional, but make it more readable)
+ENV SERVICE_NAME goserver
+
 RUN apt-get -qq update && apt-get upgrade -y --force-yes
 
 # Disable (only for Demo!!!!) secure host checking

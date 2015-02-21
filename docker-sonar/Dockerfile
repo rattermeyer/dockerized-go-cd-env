@@ -15,10 +15,10 @@ RUN unzip /opt/sonarqube-5.0.zip -d /opt
 COPY conf/wrapper.conf /opt/sonarqube-5.0/conf/wrapper.conf
 COPY conf/sonar.properties /opt/sonarqube-5.0/conf/sonar.properties
 
-ADD plugins.sh /tmp/plugins.sh
-WORKDIR /opt/sonarqube-5.0/extensions/downloads
-RUN chmod u+x /tmp/plugins.sh
-RUN /tmp/plugins.sh
+#ADD plugins.sh /tmp/plugins.sh
+#WORKDIR /opt/sonarqube-5.0/extensions/downloads
+#RUN chmod u+x /tmp/plugins.sh
+#RUN /tmp/plugins.sh
 
 EXPOSE 9000
 
