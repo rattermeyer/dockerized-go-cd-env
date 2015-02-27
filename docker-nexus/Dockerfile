@@ -1,11 +1,13 @@
 FROM rattermeyer/ubuntu-jdk:1.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
-ENV REFRESHED_AT 2015-02-17
+ENV REFRESHED_AT 2015-02-22
+
+ENV http_proxy http://squid:3128
+ENV https_proxy http://squid:3128
+RUN echo "Acquire::http::Proxy \"http://apt-cacher:3142\";" > /etc/apt/apt.conf.d/01proxy
 
 RUN apt-get -qq update 
 
-# Install Puppet 
-RUN apt-get install -y puppet
 # download nexus
 RUN curl https://sonatype-download.global.ssl.fastly.net/nexus/oss/nexus-2.11.1-01-bundle.tar.gz | tar -C /srv -xz 
 VOLUME  ["/opt/sonatype-work", "/opt/nexus/conf"]

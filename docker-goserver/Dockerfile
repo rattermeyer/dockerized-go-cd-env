@@ -1,23 +1,31 @@
-FROM rattermeyer/ubuntu-jdk:1.0
+FROM gocd/gocd-server:14.4.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 
-ENV REFRESHED_AT 2015-02-17
-
 # Consul specifig customizations (optional, but make it more readable)
-ENV SERVICE_NAME goserver
+ENV SERVICE_NAME go-server
 
-RUN apt-get -qq update && apt-get upgrade -y --force-yes
+ENV REFRESHED_AT 2015-02-17
+ENV DEBIAN_FRONTEND noninteractive
 
-# Disable (only for Demo!!!!) secure host checking
-RUN echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
-RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
+ENV http_proxy http://squid:3128
+ENV https_proxy http://squid:3128
+ENV no_proxy "localhost,download.oracle.com,edelivery.oracle.com"
+RUN echo "Acquire::http::Proxy \"http://apt-cacher:3142\";" > /etc/apt/apt.conf.d/01proxy
 
-RUN apt-get install -y wget unzip git
+# install software-properties-common (ubuntu >= 12.10) to be able to use add-apt-repository
+RUN apt-get -qq -y install software-properties-common
+# add PPA for java
+RUN add-apt-repository ppa:webupd8team/java
+# resynchronize package index files from their sources
+RUN apt-get -qq update
 
-# download and install Go Server
-RUN wget http://download.go.cd/gocd-deb/go-server-14.4.0-1356.deb -O /tmp/go-server.deb
-RUN dpkg -i /tmp/go-server.deb
-EXPOSE 8153
+# accept Oracle license
+RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+# install jdk7
+RUN apt-get -qq -y install oracle-java7-installer
+ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
+
+EXPOSE 8153 8154
 
 # ssh setup for go user
 RUN mkdir -p /var/go/.ssh && chown -R go:go /var/go/.ssh
@@ -29,5 +37,4 @@ ADD ssh_config /var/go/.ssh/config
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Start Go Server, create go-server logfile and tail it
-CMD /etc/init.d/go-server start && > /var/log/go-server/go-server.log && /sbin/my_init & tail -F /var/log/go-server/go-server.log
+CMD ["/sbin/my_init"]

@@ -1,10 +1,15 @@
-FROM rattermeyer/ubuntu-jdk:1.0
+FROM gocd/gocd-agent:14.4.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 
 ENV REFRESHED_AT 2015-02-17
 
+ENV http_proxy http://squid:3128
+ENV https_proxy http://squid:3128
+ENV no_proxy "localhost,download.oracle.com,edelivery.oracle.com"
+RUN echo "Acquire::http::Proxy \"http://apt-cacher:3142\";" > /etc/apt/apt.conf.d/01proxy
+
 # Consul specific settings
-ENV SERVICE_NAME goagent
+ENV SERVICE_NAME go-agent
 
 RUN apt-get -qq update && apt-get upgrade -qqy 
 
@@ -12,17 +17,21 @@ RUN apt-get -qq update && apt-get upgrade -qqy
 RUN echo StrictHostKeyChecking no >> /etc/ssh/ssh_config
 RUN echo UserKnownHostsFile /dev/null >> /etc/ssh/ssh_config
 
+# install software-properties-common (ubuntu >= 12.10) to be able to use add-apt-repository
+RUN apt-get -qq -y install software-properties-common
+# add PPA for java
+RUN add-apt-repository ppa:webupd8team/java
+# resynchronize package index files from their sources
+RUN apt-get -qq update
+
+# accept Oracle license
+RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+# install jdk7
+RUN apt-get -qq -y install oracle-java7-installer
+ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
+
 # Update and download essential packages
 RUN apt-get install -y wget unzip dnsutils git
-
-# Download and setup Go Agent
-RUN wget http://download.go.cd/gocd-deb/go-agent-14.4.0-1356.deb -O /tmp/go-agent.deb
-RUN dpkg -i /tmp/go-agent.deb
-RUN sed -i 's/GO_SERVER=127.0.0.1/GO_SERVER=`dig +short +search goserver`/g' /etc/default/go-agent
-RUN sed -i 's/DAEMON=Y/DAEMON=N/g' /etc/default/go-agent
-ADD ./readcfg.sh /var/go/
-RUN chmod +x /var/go/readcfg.sh
-RUN chown go:go /var/go/readcfg.sh
 
 # ssh setup for go user
 RUN mkdir -p /var/go/.ssh && chown -R go:go /var/go/.ssh
@@ -45,3 +54,5 @@ RUN ln -s /usr/local/maven/apache-maven-3.2.5/bin/mvn /usr/bin/mvn
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # Start Go Agent, create go-agent logfile and tail it
 CMD /etc/init.d/go-agent start && > /var/log/go-agent/go-agent.log && tail -F /var/log/go-agent/go-agent.log
+
+CMD ["/sbin/my_init"]
