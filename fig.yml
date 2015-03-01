@@ -5,6 +5,7 @@ goserver:
     - "8154:8154"
   volumes:
     - /opt/go-server/artifacts:/var/lib/go-server/artifacts
+    - /opt/go-server/pipelines:/var/lib/go-server/pipelines
     - /opt/go-server/etc:/etc/go
   links:
     - git

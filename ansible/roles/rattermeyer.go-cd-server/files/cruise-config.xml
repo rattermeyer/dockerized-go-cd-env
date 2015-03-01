@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- default file modified by rattermeyer -->
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="74">
+  <server artifactsdir="artifacts" commandRepositoryLocation="default" serverId="7253bfa1-98b3-4ebd-85c1-79a5e240705b" />
+</cruise>
+

@@ -2,6 +2,8 @@ FROM rattermeyer/ubuntu-jdk:1.0
 MAINTAINER Richard Attermeyer "richard.attermeyer@gmail.com"
 ENV REFRESHED_AT 2015-02-22
 
+ENV SERVICE_NAME maven-repo
+
 ENV http_proxy http://squid:3128
 ENV https_proxy http://squid:3128
 RUN echo "Acquire::http::Proxy \"http://apt-cacher:3142\";" > /etc/apt/apt.conf.d/01proxy

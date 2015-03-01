@@ -1,0 +1,9 @@
+# vim: noai:ts=2:sw=2:expandtab
+- name: Create volume directories
+  file: name={{item}} state=directory mode=a+rw
+  with_items:
+    - /opt/go-server/pipelines
+    - /opt/go-server/artifacts
+    - /opt/go-server/etc
+- name: Copy base go-cd-server configuration
+  copy: src=./ dest=/opt/go-server/etc mode=a+rw force=no

@@ -49,6 +49,11 @@ ENV M2 /usr/local/maven/apache-maven-3.2.5/bin
 ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 ENV PATH $M2:$JAVA_HOME:$PATH
 RUN ln -s /usr/local/maven/apache-maven-3.2.5/bin/mvn /usr/bin/mvn
+# Change to use oracle jdk
+RUN sed -i '/JAVA_HOME=\/usr\/lib\/jvm\/java-7-openjdk-amd64\/jre/c\JAVA_HOME=\/usr\/lib\/jvm\/java-7-oracle' /etc/default/go-agent
+
+# ADD Settings to go home
+ADD settings.xml /var/go/
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
