@@ -53,7 +53,8 @@ RUN ln -s /usr/local/maven/apache-maven-3.2.5/bin/mvn /usr/bin/mvn
 RUN sed -i '/JAVA_HOME=\/usr\/lib\/jvm\/java-7-openjdk-amd64\/jre/c\JAVA_HOME=\/usr\/lib\/jvm\/java-7-oracle' /etc/default/go-agent
 
 # ADD Settings to go home
-ADD settings.xml /var/go/
+RUN mkdir -p /var/go/.m2
+ADD settings.xml /var/go/.m2/
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
