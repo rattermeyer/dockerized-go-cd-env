@@ -4,9 +4,10 @@ goserver:
     - "8153:8153"
     - "8154:8154"
   volumes:
-    - /opt/go-server/artifacts:/var/lib/go-server/artifacts
-    - /opt/go-server/pipelines:/var/lib/go-server/pipelines
+    - /opt/go-server/lib:/var/lib/go-server
+    - /opt/go-server/log:/var/log/go-server
     - /opt/go-server/etc:/etc/go
+    - /opt/go-server/addons:/go-addons
   links:
     - git
 goagent:
